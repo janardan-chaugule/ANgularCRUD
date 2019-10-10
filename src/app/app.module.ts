@@ -9,7 +9,13 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AppComponent } from './app.component';
 import { ListEmployeesComponent } from './employees/list-employees.component';
 import { CreateEmployeeComponent } from './employees/create-employee.component';
+import { SelectRequiredValidatorDirective } from './shared/select-required-validator.directive';
+import { ConfirmEqualValidatorDirective } from './shared/confirm-equal-validator.directive';
+import { EmployeeService } from './employees/employee.service';
+import { DisplayEmployeeComponent } from './employees/display-employee.component';
 
+import {CreateEmployeeCanDeactivateGuardService} from './employees/create-employee-can-deactivate-gaurd.service';
+import { EmployeeDetailsComponent } from './employees/employee-details.component';
 // Each route maps a URL path to a component
 // The 3rd route specifies the route to redirect to if the path
 // is empty. In our case we are redirecting to /list
@@ -20,7 +26,9 @@ import { CreateEmployeeComponent } from './employees/create-employee.component';
 
 const appRoutes: Routes = [
   { path: 'list', component: ListEmployeesComponent },
-  { path: 'create', component: CreateEmployeeComponent },
+  { path: 'create', component: CreateEmployeeComponent ,canDeactivate:[CreateEmployeeCanDeactivateGuardService]},
+  {path : 'employees/:id',component : EmployeeDetailsComponent},
+  // {path: 'employees/:id/:name', component: EmployeeDetailsComponent},
   { path: '', redirectTo: '/list', pathMatch: 'full' }
 ];
 
@@ -28,7 +36,11 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ListEmployeesComponent,
-    CreateEmployeeComponent
+    CreateEmployeeComponent,
+    SelectRequiredValidatorDirective,
+    ConfirmEqualValidatorDirective,
+    DisplayEmployeeComponent,
+    EmployeeDetailsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -36,9 +48,9 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     FormsModule
-    
+
   ],
-  providers: [],
+  providers: [EmployeeService,CreateEmployeeCanDeactivateGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,4 +11,6 @@ export class Employee {
     department: string;
     isActive: boolean;
     photoPath?: string;
+    confirmPassword:string;
+    password:string;
 }
